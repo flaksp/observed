@@ -3,37 +3,23 @@ import YandexMetrika from './modules/YandexMetrika';
 import GoogleAnalytics from './modules/GoogleAnalytics';
 // import Sentry from './modules/Sentry';
 import * as Twitch from './modules/Twitch';
-import * as YouTube from './modules/YouTube';
+import * as Youtube from './modules/Youtube';
+import * as Counters from './modules/Counters';
 
-window.addEventListener('load', () => {
+function initializeApp() {
   YandexMetrika();
   GoogleAnalytics();
   // Sentry();
-  YouTube.initialize();
+  Twitch.initialize();
+  Youtube.initialize();
+}
 
-  if (Twitch.shouldBeFetched() === true) {
-    Twitch.getViewers('domingo').then((viewers) => {
-      document.getElementById('twitch').innerHTML = `Twitch: ${viewers}`;
-    });
-  }
+window.addEventListener('load', () => {
+  initializeApp();
 
-  if (YouTube.shouldBeFetched() === true) {
-    YouTube.getViewers('mwqyTrSrSr8').then((viewers) => {
-      document.getElementById('youtube').innerHTML = `YouTube: ${viewers}`;
-    });
-  }
+  Counters.refreshCounters();
 
   setInterval(() => {
-    if (Twitch.shouldBeFetched() === true) {
-      Twitch.getViewers('domingo').then((viewers) => {
-        document.getElementById('twitch').innerHTML = `Twitch: ${viewers}`;
-      });
-    }
-
-    if (YouTube.shouldBeFetched() === true) {
-      YouTube.getViewers('mwqyTrSrSr8').then((viewers) => {
-        document.getElementById('youtube').innerHTML = `YouTube: ${viewers}`;
-      });
-    }
+    Counters.refreshCounters();
   }, 10000);
 });
