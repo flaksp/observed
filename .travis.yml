@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+- "stable"
+cache:
+  directories:
+  - node_modules
+script:
+- npm test
+- npm run build
+- echo "$PUBLIC_DOMAIN" >> dist/CNAME
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local_dir: dist
+  on:
+    branch: master
+env:
+  global:
+  - YANDEX_METRIKA_ID=47731033
+  - GOOGLE_ANALYTICS_ID=UA-63968909-11
+  - SENTRY_DSN=https://fe6966b5ebb74c1b9a4d3fa547564c49@sentry.io/289887
+  - PUBLIC_DOMAIN=observed.lith.pw
+  - YANDEX_SITE_VERIFICATION_TOKEN=
+  - GOOGLE_SITE_VERIFICATION_TOKEN=
+  - TWITCH_CLIENT_ID=16bettro08b68ichmrb73k0xt2azi2
+  - YOUTUBE_API_KEY=AIzaSyDU4KoV_Zjczd70jbiGZXrONVHiZgP29ik

@@ -1,0 +1,50 @@
+{
+  "name": "observed",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A simple app that shows client's real screen resolution.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "poi",
+    "build": "poi build",
+    "lint": "eslint .",
+    "test": "npm run lint"
+  },
+  "devDependencies": {
+    "babel-eslint": "8.2.1",
+    "eslint": "4.18.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssimplix/resolith.git"
+  },
+  "keywords": [
+    "js",
+    "javascript"
+  ],
+  "author": {
+    "name": "Petr Luzhin",
+    "email": "lithx@yandex.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ssimplix/observed/issues"
+  },
+  "homepage": "https://observed.lith.pw",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "last 7 iOS versions",
+    "not ie <= 8"
+  ],
+  "dependencies": {
+    "dotenv-webpack": "1.5.4",
+    "http-build-query": "0.5.1",
+    "offline-plugin": "4.9.0",
+    "poi": "9.6.13",
+    "poi-preset-babel-minify": "^1.0.3",
+    "poi-preset-offline": "9.0.3"
+  }
+}
