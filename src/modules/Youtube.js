@@ -1,36 +1,9 @@
 export const ELEMENT_ID = 'youtube';
-
-const INPUT = document.createElement('input');
-INPUT.setAttribute('class', 'online-list__channel-id-field');
-INPUT.setAttribute('minlength', '24');
-INPUT.setAttribute('maxlength', '24');
-INPUT.setAttribute('pattern', '[a-zA-Z0-9_-]{24}');
-
-const FORM = document.createElement('form');
-FORM.setAttribute('class', 'online-list__channel-id-form');
-FORM.appendChild(INPUT);
+export const STORAGE_KEY = 'youtubeId';
 
 function channelExists(channelId) {
   return true;
 }
-
-async function handleFormSubmittion(event) {
-  event.stopPropagation();
-
-  this.firstChild.oninput = () => {
-    this.firstChild.setCustomValidity('');
-  };
-
-  if (await channelExists(this.firstChild.value) === false) {
-    this.firstChild.setCustomValidity('YouTube account with this ID not found.');
-
-    return;
-  }
-
-  localStorage.setItem('youtubeId', this.firstChild.value);
-}
-
-FORM.onsubmit = handleFormSubmittion;
 
 function isInitialized() {
   return window.gapi.client !== undefined;
@@ -44,27 +17,93 @@ export function getViewers(videoId) {
 }
 
 export function isAuthenticated() {
-  return true;
+  return false;
+}
+
+export function getStoredChannelId() {
+  return localStorage.getItem(STORAGE_KEY);
 }
 
 export function shouldBeFetched() {
   return getStoredChannelId() !== null
-    && isAuthenticated() === true
+    && isInitialized() === true
     && isAuthenticated() === true;
 }
 
-export function getStoredChannelId() {
-  return localStorage.getItem('youtubeId');
+export function rerenderItems() {
+  const counter = document
+    .querySelector(`#${ELEMENT_ID} .online-list__online`);
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+  const deleteButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
+  const authButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
+
+  if (isAuthenticated() === false) {
+    counter.setAttribute('hidden', true);
+    form.setAttribute('hidden', true);
+    deleteButton.setAttribute('hidden', true);
+    authButton.removeAttribute('hidden');
+
+    return;
+  }
+
+  if (getStoredChannelId() === null) {
+    counter.setAttribute('hidden', true);
+    form.removeAttribute('hidden');
+    deleteButton.setAttribute('hidden', true);
+    authButton.setAttribute('hidden', true);
+
+    return;
+  }
+
+  counter.removeAttribute('hidden');
+  form.setAttribute('hidden', true);
+  deleteButton.removeAttribute('hidden');
+  authButton.setAttribute('hidden', true);
+}
+
+async function handleChannelIdFormSubmitting(event) {
+  event.stopPropagation();
+
+  this.firstChild.oninput = () => {
+    this.firstChild.setCustomValidity('');
+  };
+
+  if (await channelExists(this.firstChild.value) === false) {
+    this.firstChild
+      .setCustomValidity(this.firstChild.dataset.channelNotFoundMessage);
+
+    return;
+  }
+
+  localStorage.setItem(STORAGE_KEY, this.firstChild.value);
+
+  rerenderItems();
+}
+
+async function removeStoredChannelId() {
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+
+  form.reset();
+
+  localStorage.removeItem(STORAGE_KEY);
+
+  rerenderItems();
 }
 
 export function initialize() {
-  const counter = document.getElementById(ELEMENT_ID);
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+  const deleteButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
+  const authButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
 
-  while (counter.firstChild) {
-    counter.removeChild(counter.firstChild);
-  }
-
-  counter.appendChild(FORM);
+  form.onsubmit = handleChannelIdFormSubmitting;
+  deleteButton.onclick = removeStoredChannelId;
 
   window.gapi.load('client:auth2', () => {
     window.gapi.client.init({
@@ -73,4 +112,6 @@ export function initialize() {
       scopes: 'https://www.googleapis.com/auth/youtube.readonly',
     });
   });
+
+  rerenderItems();
 }

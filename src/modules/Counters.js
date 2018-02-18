@@ -1,24 +1,34 @@
 import * as Twitch from './Twitch';
 import * as Youtube from './Youtube';
+import {ELEMENT_ID} from "./Youtube";
 
 async function refreshTwitchCounter(viewers) {
-  document.getElementById(Twitch.ELEMENT_ID).innerHTML = Number.isInteger(viewers)
+  const twitchCounter = document
+    .querySelector(`#${Twitch.ELEMENT_ID} .online-list__online`);
+
+  twitchCounter.innerHTML = Number.isInteger(viewers)
     ? viewers
-    : '**dash from counters**';
+    : '-';
 }
 
 async function refreshYoutubeCounter(viewers) {
-  document.getElementById(Youtube.ELEMENT_ID).innerHTML = Number.isInteger(viewers)
+  const youtubeCounter = document
+    .querySelector(`#${Youtube.ELEMENT_ID} .online-list__online`);
+
+  youtubeCounter.innerHTML = Number.isInteger(viewers)
     ? viewers
-    : '**dash from counters**';
+    : '-';
 }
 
 async function refreshSumCounter(
   twitchViewers,
   youtubeViewers,
 ) {
+  const sumCounter = document
+    .querySelector('#sum .online-list__online');
+
   if (twitchViewers === null && youtubeViewers === null) {
-    document.getElementById('sum').innerHTML = '**dash from counters**';
+    sumCounter.innerHTML = '-';
   } else {
     const normalizedTwitchViewers = Number.isInteger(twitchViewers)
       ? twitchViewers
@@ -28,7 +38,7 @@ async function refreshSumCounter(
       ? youtubeViewers
       : 0;
 
-    document.getElementById('sum').innerHTML =
+    sumCounter.innerHTML =
       normalizedTwitchViewers + normalizedYoutubeViewers;
   }
 }

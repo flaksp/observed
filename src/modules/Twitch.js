@@ -1,16 +1,7 @@
 const httpBuildQuery = require('http-build-query');
 
 export const ELEMENT_ID = 'twitch';
-
-const INPUT = document.createElement('input');
-INPUT.setAttribute('class', 'online-list__channel-id-field');
-INPUT.setAttribute('minlength', '3');
-INPUT.setAttribute('maxlength', '25');
-INPUT.setAttribute('pattern', '[a-zA-Z0-9][a-zA-Z0-9_]{2,24}');
-
-const FORM = document.createElement('form');
-FORM.setAttribute('class', 'online-list__channel-id-form');
-FORM.appendChild(INPUT)
+export const STORAGE_KEY = 'twitchId';
 
 function channelExists(username) {
   const parameters = httpBuildQuery({
@@ -29,35 +20,17 @@ function channelExists(username) {
     .then(data => data.data[0] !== undefined);
 }
 
-async function handleFormSubmittion(event) {
-  event.preventDefault();
-
-  this.firstChild.oninput = () => {
-    this.firstChild.setCustomValidity('');
-  };
-
-  if (await channelExists(this.firstChild.value) === false) {
-    this.firstChild.setCustomValidity('Twitch account with this username not found.');
-
-    return;
-  }
-
-  localStorage.setItem('twitchId', this.firstChild.value);
-}
-
-FORM.onsubmit = handleFormSubmittion;
-
 export function isAuthenticated() {
   return true;
+}
+
+export function getStoredChannelId() {
+  return localStorage.getItem(STORAGE_KEY);
 }
 
 export function shouldBeFetched() {
   return getStoredChannelId() !== null
     && isAuthenticated() === true;
-}
-
-export function getStoredChannelId() {
-  return localStorage.getItem('twitchId');
 }
 
 export function getViewers(username) {
@@ -83,8 +56,75 @@ export function getViewers(username) {
     });
 }
 
-export function initialize() {
-  const counter = document.getElementById(ELEMENT_ID);
+export function rerenderItems() {
+  const counter = document
+    .querySelector(`#${ELEMENT_ID} .online-list__online`);
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+  const deleteButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
+  const authButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
 
-  counter.appendChild(FORM);
+  if (isAuthenticated() === false) {
+    counter.setAttribute('hidden', true);
+    form.setAttribute('hidden', true);
+    deleteButton.setAttribute('hidden', true);
+    authButton.removeAttribute('hidden');
+
+    return;
+  }
+
+  if (getStoredChannelId() === null) {
+    counter.setAttribute('hidden', true);
+    form.removeAttribute('hidden');
+    deleteButton.setAttribute('hidden', true);
+    authButton.setAttribute('hidden', true);
+
+    return;
+  }
+
+  counter.removeAttribute('hidden');
+  form.setAttribute('hidden', true);
+  deleteButton.removeAttribute('hidden');
+  authButton.setAttribute('hidden', true);
+}
+
+async function handleChannelIdFormSubmitting(event) {
+  event.preventDefault();
+
+  this.firstChild.oninput = () => {
+    this.firstChild.setCustomValidity('');
+  };
+
+  if (await channelExists(this.firstChild.value) === false) {
+    this.firstChild
+      .setCustomValidity(this.firstChild.dataset.channelNotFoundMessage);
+
+    return;
+  }
+
+  localStorage.setItem(STORAGE_KEY, this.firstChild.value);
+
+  rerenderItems();
+}
+
+async function removeStoredChannelId() {
+  localStorage.removeItem(STORAGE_KEY);
+
+  rerenderItems();
+}
+
+export function initialize() {
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+  const deleteButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
+  const authButton = document
+    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
+
+  form.onsubmit = handleChannelIdFormSubmitting;
+  deleteButton.onclick = removeStoredChannelId;
+
+  rerenderItems();
 }
