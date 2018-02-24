@@ -1,6 +1,5 @@
+import * as qs from 'qs';
 import refreshCounters from './Counters';
-
-const httpBuildQuery = require('http-build-query');
 
 export const ELEMENT_ID = 'twitch';
 export const STORAGE_KEY = 'twitchId';
@@ -10,18 +9,18 @@ export function isInitialized() {
 }
 
 export function getViewers(username) {
-  const parameters = httpBuildQuery({
+  const parameters = qs.stringify({
     user_login: username,
   });
 
-  const streamsRequest = new Request(`https://api.twitch.tv/helix/streams?${parameters}`, {
+  const options = {
     method: 'GET',
-    headers: new Headers({
+    headers: {
       'Client-ID': process.env.TWITCH_CLIENT_ID,
-    }),
-  });
+    },
+  };
 
-  return fetch(streamsRequest)
+  return fetch(`https://api.twitch.tv/helix/streams?${parameters}`, options)
     .then(response => response.json())
     .then((data) => {
       if (data.data[0] !== undefined) {
@@ -33,18 +32,18 @@ export function getViewers(username) {
 }
 
 function channelExists(username) {
-  const parameters = httpBuildQuery({
+  const parameters = qs.stringify({
     login: username,
   });
 
-  const streamsRequest = new Request(`https://api.twitch.tv/helix/users?${parameters}`, {
+  const options = {
     method: 'GET',
-    headers: new Headers({
+    headers: {
       'Client-ID': process.env.TWITCH_CLIENT_ID,
-    }),
-  });
+    },
+  };
 
-  return fetch(streamsRequest)
+  return fetch(`https://api.twitch.tv/helix/users?${parameters}`, options)
     .then(response => response.json())
     .then(data => data.data[0] !== undefined);
 }
