@@ -1,25 +1,28 @@
-import * as Counters from './Counters';
+import refreshCounters from './Counters';
+
+const jsonp = require('jsonp-promise');
 
 export const ELEMENT_ID = 'youtube';
 export const STORAGE_KEY = 'youtubeId';
 
-function channelExists(channelId) {
+function isInitialized() {
   return true;
 }
 
-function isInitialized() {
-  return window.gapi.client !== undefined;
+export function getViewers(videoId) {
+  return jsonp(`https://www.youtube.com/live_stats?v=${videoId}`, {
+    param: 'callback',
+  }).promise.then(data => data.count);
 }
 
-export function getViewers(videoId) {
-  return window.gapi.client.youtube.videos.list({
-    id: videoId,
-    part: 'statistics',
-  }).then(data => data.result.items[0].statistics.viewCount);
+function channelExists(videoId) {
+  return getViewers(videoId)
+    .then(data => data.count !== 0)
+    .catch(() => false);
 }
 
 export function isAuthenticated() {
-  return false;
+  return true; // no need for authentication
 }
 
 export function getStoredChannelId() {
@@ -41,6 +44,10 @@ export function rerenderItems() {
     .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
   const authButton = document
     .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
+  const loading = document
+    .querySelector(`#${ELEMENT_ID} .online-list__loading`);
+
+  loading.setAttribute('hidden', true);
 
   if (isAuthenticated() === false) {
     counter.setAttribute('hidden', true);
@@ -67,7 +74,7 @@ export function rerenderItems() {
 }
 
 async function handleChannelIdFormSubmitting(event) {
-  event.stopPropagation();
+  event.preventDefault();
 
   this.firstChild.oninput = () => {
     this.firstChild.setCustomValidity('');
@@ -84,6 +91,7 @@ async function handleChannelIdFormSubmitting(event) {
 
   localStorage.setItem(STORAGE_KEY, this.firstChild.value);
 
+  refreshCounters();
   rerenderItems();
 }
 
@@ -93,30 +101,20 @@ async function removeStoredChannelId() {
 
   form.reset();
 
-  Counters.refreshCounters();
   localStorage.removeItem(STORAGE_KEY);
 
+  refreshCounters();
   rerenderItems();
 }
 
-export function initialize() {
+export async function initialize() {
   const form = document
     .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
   const deleteButton = document
     .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
-  const authButton = document
-    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
 
   form.onsubmit = handleChannelIdFormSubmitting;
   deleteButton.onclick = removeStoredChannelId;
-
-  window.gapi.load('client:auth2', () => {
-    window.gapi.client.init({
-      apiKey: process.env.YOUTUBE_API_KEY,
-      discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
-      scopes: 'https://www.googleapis.com/auth/youtube.readonly',
-    });
-  });
 
   rerenderItems();
 }

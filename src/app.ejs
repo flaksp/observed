@@ -37,6 +37,9 @@
             <button type="button" class="online-list__auth-button" hidden>
               Authenticate
             </button>
+            <div class="online-list__loading loading">
+              <span>.</span><span>.</span><span>.</span>
+            </div>
           </dd>
         </div>
 
@@ -50,14 +53,17 @@
             <span class="online-list__online" hidden>-</span>
             <form class="online-list__channel-id-form" hidden>
               <input class="online-list__channel-id-field"
-                     minlength="24"
-                     maxlength="24"
-                     pattern="[a-zA-Z0-9_-]{24}"
-                     data-channel-not-found-message="YouTube account with this ID not found.">
+                     minlength="10"
+                     maxlength="12"
+                     pattern="[a-zA-Z0-9_-]{10,12}"
+                     data-channel-not-found-message="YouTube video with this ID not found.">
             </form>
             <button type="button" class="online-list__auth-button" hidden>
               Authenticate
             </button>
+            <div class="online-list__loading loading">
+              <span>.</span><span>.</span><span>.</span>
+            </div>
           </dd>
         </div>
       </dl>
@@ -66,6 +72,5 @@
     <script src="https://www.googletagmanager.com/gtag/js" async></script>
     <script src="https://mc.yandex.ru/metrika/watch.js" crossorigin="anonymous" async></script>
     <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous" async></script>
-    <script src="https://apis.google.com/js/api.js" async></script>
   </body>
 </html>

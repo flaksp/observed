@@ -1,6 +1,5 @@
 import * as Twitch from './Twitch';
 import * as Youtube from './Youtube';
-import {ELEMENT_ID} from "./Youtube";
 
 async function refreshTwitchCounter(viewers) {
   const twitchCounter = document
@@ -43,7 +42,7 @@ async function refreshSumCounter(
   }
 }
 
-export async function refreshCounters() {
+export default async function refreshCounters() {
   let twitchViewers = null;
   let youtubeViewers = null;
 

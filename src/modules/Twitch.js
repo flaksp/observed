@@ -1,38 +1,12 @@
-import * as Counters from './Counters';
+import refreshCounters from './Counters';
 
 const httpBuildQuery = require('http-build-query');
 
 export const ELEMENT_ID = 'twitch';
 export const STORAGE_KEY = 'twitchId';
 
-function channelExists(username) {
-  const parameters = httpBuildQuery({
-    login: username,
-  });
-
-  const streamsRequest = new Request(`https://api.twitch.tv/helix/users?${parameters}`, {
-    method: 'GET',
-    headers: new Headers({
-      'Client-ID': process.env.TWITCH_CLIENT_ID,
-    }),
-  });
-
-  return fetch(streamsRequest)
-    .then(response => response.json())
-    .then(data => data.data[0] !== undefined);
-}
-
-export function isAuthenticated() {
+export function isInitialized() {
   return true;
-}
-
-export function getStoredChannelId() {
-  return localStorage.getItem(STORAGE_KEY);
-}
-
-export function shouldBeFetched() {
-  return getStoredChannelId() !== null
-    && isAuthenticated() === true;
 }
 
 export function getViewers(username) {
@@ -58,6 +32,37 @@ export function getViewers(username) {
     });
 }
 
+function channelExists(username) {
+  const parameters = httpBuildQuery({
+    login: username,
+  });
+
+  const streamsRequest = new Request(`https://api.twitch.tv/helix/users?${parameters}`, {
+    method: 'GET',
+    headers: new Headers({
+      'Client-ID': process.env.TWITCH_CLIENT_ID,
+    }),
+  });
+
+  return fetch(streamsRequest)
+    .then(response => response.json())
+    .then(data => data.data[0] !== undefined);
+}
+
+export function isAuthenticated() {
+  return true; // no need for authentication
+}
+
+export function getStoredChannelId() {
+  return localStorage.getItem(STORAGE_KEY);
+}
+
+export function shouldBeFetched() {
+  return getStoredChannelId() !== null
+    && isInitialized() === true
+    && isAuthenticated() === true;
+}
+
 export function rerenderItems() {
   const counter = document
     .querySelector(`#${ELEMENT_ID} .online-list__online`);
@@ -67,6 +72,10 @@ export function rerenderItems() {
     .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
   const authButton = document
     .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
+  const loading = document
+    .querySelector(`#${ELEMENT_ID} .online-list__loading`);
+
+  loading.setAttribute('hidden', true);
 
   if (isAuthenticated() === false) {
     counter.setAttribute('hidden', true);
@@ -110,6 +119,7 @@ async function handleChannelIdFormSubmitting(event) {
 
   localStorage.setItem(STORAGE_KEY, this.firstChild.value);
 
+  refreshCounters();
   rerenderItems();
 }
 
@@ -121,17 +131,15 @@ async function removeStoredChannelId() {
 
   localStorage.removeItem(STORAGE_KEY);
 
-  Counters.refreshCounters();
+  refreshCounters();
   rerenderItems();
 }
 
-export function initialize() {
+export async function initialize() {
   const form = document
     .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
   const deleteButton = document
     .querySelector(`#${ELEMENT_ID} .online-list__delete-button`);
-  const authButton = document
-    .querySelector(`#${ELEMENT_ID} .online-list__auth-button`);
 
   form.onsubmit = handleChannelIdFormSubmitting;
   deleteButton.onclick = removeStoredChannelId;
