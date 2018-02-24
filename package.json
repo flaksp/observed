@@ -2,7 +2,7 @@
   "name": "observed",
   "version": "1.0.0",
   "private": true,
-  "description": "A simple app that shows client's real screen resolution.",
+  "description": "A tool to monitor your streams' viewers count.",
   "main": "src/app.js",
   "scripts": {
     "start": "poi",
@@ -18,17 +18,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssimplix/resolith.git"
+    "url": "git+https://github.com/ssimplix/observed.git"
   },
   "keywords": [
     "js",
-    "javascript"
+    "javascript",
+    "streaming",
+    "twitch-api",
+    "youtube-api",
+    "pwa"
   ],
   "author": {
     "name": "Petr Luzhin",
     "email": "lithx@yandex.com"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/ssimplix/observed/issues"
   },
