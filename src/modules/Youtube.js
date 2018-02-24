@@ -1,3 +1,5 @@
+import * as Counters from './Counters';
+
 export const ELEMENT_ID = 'youtube';
 export const STORAGE_KEY = 'youtubeId';
 
@@ -75,6 +77,8 @@ async function handleChannelIdFormSubmitting(event) {
     this.firstChild
       .setCustomValidity(this.firstChild.dataset.channelNotFoundMessage);
 
+    this.reportValidity();
+
     return;
   }
 
@@ -89,6 +93,7 @@ async function removeStoredChannelId() {
 
   form.reset();
 
+  Counters.refreshCounters();
   localStorage.removeItem(STORAGE_KEY);
 
   rerenderItems();

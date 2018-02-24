@@ -1,3 +1,5 @@
+import * as Counters from './Counters';
+
 const httpBuildQuery = require('http-build-query');
 
 export const ELEMENT_ID = 'twitch';
@@ -101,6 +103,8 @@ async function handleChannelIdFormSubmitting(event) {
     this.firstChild
       .setCustomValidity(this.firstChild.dataset.channelNotFoundMessage);
 
+    this.reportValidity();
+
     return;
   }
 
@@ -110,8 +114,14 @@ async function handleChannelIdFormSubmitting(event) {
 }
 
 async function removeStoredChannelId() {
+  const form = document
+    .querySelector(`#${ELEMENT_ID} .online-list__channel-id-form`);
+
+  form.reset();
+
   localStorage.removeItem(STORAGE_KEY);
 
+  Counters.refreshCounters();
   rerenderItems();
 }
 
