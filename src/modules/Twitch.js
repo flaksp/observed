@@ -1,6 +1,5 @@
+import * as qs from 'qs';
 import refreshCounters from './Counters';
-
-const httpBuildQuery = require('http-build-query');
 
 export const ELEMENT_ID = 'twitch';
 export const STORAGE_KEY = 'twitchId';
@@ -10,7 +9,7 @@ export function isInitialized() {
 }
 
 export function getViewers(username) {
-  const parameters = httpBuildQuery({
+  const parameters = qs.stringify({
     user_login: username,
   });
 
@@ -33,7 +32,7 @@ export function getViewers(username) {
 }
 
 function channelExists(username) {
-  const parameters = httpBuildQuery({
+  const parameters = qs.stringify({
     login: username,
   });
 
