@@ -1,6 +1,6 @@
-# Observed &mdash; a tool to monitor your streams' viewers count
+# Observed Viewers &mdash; a tool to monitor your streams' viewers count
 
-[![Build status](https://api.travis-ci.org/ssimplix/observed.svg)](https://travis-ci.org/ssimplix/observed) [![Dependencies](https://david-dm.org/ssimplix/observed.svg)](https://david-dm.org/ssimplix/observed) [![Development dependencies](https://david-dm.org/ssimplix/observed/dev-status.svg)](https://david-dm.org/ssimplix/observed?type=dev)
+[![Build status](https://api.travis-ci.org/observed-stream/observed-viewers.svg)](https://travis-ci.org/observed-stream/observed-viewers) [![Dependencies](https://david-dm.org/observed-stream/observed-viewers.svg)](https://david-dm.org/observed-stream/observed-viewers) [![Development dependencies](https://david-dm.org/observed-stream/observed-viewers/dev-status.svg)](https://david-dm.org/observed-stream/observed-viewers?type=dev)
 
 Observed is a simple minimalistic JavaScript-only application that monitors your streams in popular streaming platforms and shows viewers count for each one and sum of them.
 
@@ -12,7 +12,7 @@ Currently supported streaming platforms:
 
 Services planned to be supported in the future:
 
-* [VK](https://vk.com) (see issue [#2](https://github.com/ssimplix/observed/issues/2))
+* [VK](https://vk.com) (see issue [#2](https://github.com/observed-stream/observed-viewers/issues/2))
 
 ## What's inside
 
