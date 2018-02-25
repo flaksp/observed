@@ -17,6 +17,20 @@ body {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
 }
 
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container__fixed-with-child {
+  flex: 0;
+}
+
+.container__dynamic-with-child {
+  flex: 1;
+}
+
 .online-list {
   display: flex;
   flex-direction: row;

@@ -1,9 +1,12 @@
 import * as Twitch from './Twitch';
 import * as Youtube from './Youtube';
+import * as Charts from './Charts';
 
 async function refreshTwitchCounter(viewers) {
   const twitchCounter = document
     .querySelector(`#${Twitch.ELEMENT_ID} .online-list__online`);
+
+  Charts.updateChart(0, viewers);
 
   twitchCounter.innerHTML = Number.isInteger(viewers)
     ? viewers
@@ -13,6 +16,8 @@ async function refreshTwitchCounter(viewers) {
 async function refreshYoutubeCounter(viewers) {
   const youtubeCounter = document
     .querySelector(`#${Youtube.ELEMENT_ID} .online-list__online`);
+
+  Charts.updateChart(1, viewers);
 
   youtubeCounter.innerHTML = Number.isInteger(viewers)
     ? viewers
