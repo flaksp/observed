@@ -112,6 +112,29 @@
               </div>
             </dd>
           </div>
+
+          <div class="online-list__item" id="goodgame">
+            <dt class="online-list__service-name online-list__service-name--goodgame">
+              GoodGame<button type="button" class="online-list__delete-button" hidden>
+                &times;
+              </button>
+            </dt>
+            <dd class="online-list__row">
+              <span class="online-list__online" hidden>-</span>
+              <form class="online-list__channel-id-form" hidden>
+                <input class="online-list__channel-id-field"
+                       pattern="[a-zA-Z0-9_]+"
+                       placeholder="Channel username. Example: Scatman"
+                       data-channel-not-found-message="GoodGame channel with this username not found.">
+              </form>
+              <button type="button" class="online-list__auth-button" hidden>
+                Authenticate
+              </button>
+              <div class="online-list__loading loading">
+                <span>.</span><span>.</span><span>.</span>
+              </div>
+            </dd>
+          </div>
         </dl>
       </div>
 

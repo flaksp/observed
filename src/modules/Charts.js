@@ -1,6 +1,7 @@
 import Highcharts from 'highcharts/highstock';
-import * as Twitch from './Twitch';
-import * as Youtube from './Youtube';
+import * as Twitch from './StreamingService/Twitch';
+import * as Youtube from './StreamingService/Youtube';
+import * as Goodgame from './StreamingService/Goodgame';
 
 export function initialize() {
   window.chart = Highcharts.stockChart('chart', {
@@ -16,7 +17,7 @@ export function initialize() {
       enabled: true,
     },
 
-    colors: [Twitch.BRAND_COLOR, Youtube.BRAND_COLOR],
+    colors: [Twitch.BRAND_COLOR, Youtube.BRAND_COLOR, Goodgame.BRAND_COLOR],
 
     rangeSelector: {
       inputEnabled: false,
@@ -86,6 +87,11 @@ export function initialize() {
       {
         type: 'line',
         name: Youtube.SERVICE_NAME,
+        data: [],
+      },
+      {
+        type: 'line',
+        name: Goodgame.SERVICE_NAME,
         data: [],
       },
     ],

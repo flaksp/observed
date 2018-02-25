@@ -61,6 +61,10 @@ body {
   color: #ff0000;
 }
 
+.online-list__service-name--goodgame {
+  color: #233056;
+}
+
 .online-list__online {
   text-align: center;
 }
