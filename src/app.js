@@ -2,8 +2,9 @@ import './app.css';
 import YandexMetrika from './modules/YandexMetrika';
 import GoogleAnalytics from './modules/GoogleAnalytics';
 import Sentry from './modules/Sentry';
-import * as Twitch from './modules/Twitch';
-import * as Youtube from './modules/Youtube';
+import * as Twitch from './modules/StreamingService/Twitch';
+import * as Youtube from './modules/StreamingService/Youtube';
+import * as Goodgame from './modules/StreamingService/Goodgame';
 import * as Charts from './modules/Charts';
 import refreshCounters from './modules/Counters';
 
@@ -16,6 +17,7 @@ function initializeApp() {
 
   Twitch.initialize();
   Youtube.initialize();
+  Goodgame.initialize();
   Charts.initialize();
 }
 

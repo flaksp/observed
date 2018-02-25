@@ -1,53 +1,26 @@
-import * as qs from 'qs';
-import refreshCounters from './Counters';
+import refreshCounters from '../Counters';
 
-export const ELEMENT_ID = 'twitch';
-export const STORAGE_KEY = 'twitchId';
-export const SERVICE_NAME = 'Twitch';
-export const BRAND_COLOR = '#6441a5';
+const jsonp = require('jsonp-promise');
 
-export function isInitialized() {
+export const ELEMENT_ID = 'youtube';
+export const STORAGE_KEY = 'youtubeId';
+export const SERVICE_NAME = 'YouTube';
+export const BRAND_COLOR = '#ff0000';
+
+function isInitialized() {
   return true;
 }
 
-export function getViewers(username) {
-  const parameters = qs.stringify({
-    user_login: username,
-  });
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'Client-ID': process.env.TWITCH_CLIENT_ID,
-    },
-  };
-
-  return fetch(`https://api.twitch.tv/helix/streams?${parameters}`, options)
-    .then(response => response.json())
-    .then((data) => {
-      if (data.data[0] !== undefined) {
-        return data.data[0].viewer_count;
-      }
-
-      return null;
-    });
+export function getViewers(videoId) {
+  return jsonp(`https://www.youtube.com/live_stats?v=${videoId}`, {
+    param: 'callback',
+  }).promise.then(data => data.count);
 }
 
-function channelExists(username) {
-  const parameters = qs.stringify({
-    login: username,
-  });
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'Client-ID': process.env.TWITCH_CLIENT_ID,
-    },
-  };
-
-  return fetch(`https://api.twitch.tv/helix/users?${parameters}`, options)
-    .then(response => response.json())
-    .then(data => data.data[0] !== undefined);
+function channelExists(videoId) {
+  return getViewers(videoId)
+    .then(data => data.count !== 0)
+    .catch(() => false);
 }
 
 export function isAuthenticated() {

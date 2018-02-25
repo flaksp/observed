@@ -1,5 +1,6 @@
-import * as Twitch from './Twitch';
-import * as Youtube from './Youtube';
+import * as Twitch from './StreamingService/Twitch';
+import * as Youtube from './StreamingService/Youtube';
+import * as Goodgame from './StreamingService/Goodgame';
 import * as Charts from './Charts';
 
 async function refreshTwitchCounter(viewers) {
@@ -24,14 +25,28 @@ async function refreshYoutubeCounter(viewers) {
     : '-';
 }
 
+async function refreshGoodgameCounter(viewers) {
+  const goodgameCounter = document
+    .querySelector(`#${Goodgame.ELEMENT_ID} .online-list__online`);
+
+  Charts.updateChart(2, viewers);
+
+  goodgameCounter.innerHTML = Number.isInteger(viewers)
+    ? viewers
+    : '-';
+}
+
 async function refreshSumCounter(
   twitchViewers,
   youtubeViewers,
+  goodgameViewers,
 ) {
   const sumCounter = document
     .querySelector('#sum .online-list__online');
 
-  if (twitchViewers === null && youtubeViewers === null) {
+  if (twitchViewers === null
+    && youtubeViewers === null
+    && goodgameViewers === null) {
     sumCounter.innerHTML = '-';
   } else {
     const normalizedTwitchViewers = Number.isInteger(twitchViewers)
@@ -42,14 +57,21 @@ async function refreshSumCounter(
       ? youtubeViewers
       : 0;
 
+    const normalizedGoodgameViewers = Number.isInteger(goodgameViewers)
+      ? goodgameViewers
+      : 0;
+
     sumCounter.innerHTML =
-      normalizedTwitchViewers + normalizedYoutubeViewers;
+      normalizedTwitchViewers +
+      normalizedYoutubeViewers +
+      normalizedGoodgameViewers;
   }
 }
 
 export default async function refreshCounters() {
   let twitchViewers = null;
   let youtubeViewers = null;
+  let goodgameViewers = null;
 
   if (Twitch.shouldBeFetched() === true) {
     twitchViewers = await Twitch.getViewers(Twitch.getStoredChannelId());
@@ -63,5 +85,11 @@ export default async function refreshCounters() {
     refreshYoutubeCounter(youtubeViewers);
   }
 
-  refreshSumCounter(twitchViewers, youtubeViewers);
+  if (Goodgame.shouldBeFetched() === true) {
+    goodgameViewers = await Goodgame.getViewers(Goodgame.getStoredChannelId());
+
+    refreshGoodgameCounter(goodgameViewers);
+  }
+
+  refreshSumCounter(twitchViewers, youtubeViewers, goodgameViewers);
 }

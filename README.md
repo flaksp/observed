@@ -8,10 +8,10 @@ Currently supported streaming platforms:
 
 * [Twitch](https://www.twitch.tv)
 * [YouTube](https://www.youtube.com)
+* [GoodGame](https://goodgame.ru)
 
 Services planned to be supported in the future:
 
-* [GoodGame](https://goodgame.ru) (see issue [#1](https://github.com/ssimplix/observed/issues/1))
 * [VK](https://vk.com) (see issue [#2](https://github.com/ssimplix/observed/issues/2))
 
 ## What's inside

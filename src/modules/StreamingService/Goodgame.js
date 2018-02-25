@@ -1,25 +1,39 @@
-import refreshCounters from './Counters';
+import refreshCounters from '../Counters';
 
-const jsonp = require('jsonp-promise');
+export const ELEMENT_ID = 'goodgame';
+export const STORAGE_KEY = 'goodgameId';
+export const SERVICE_NAME = 'GoodGame';
+export const BRAND_COLOR = '#233056';
 
-export const ELEMENT_ID = 'youtube';
-export const STORAGE_KEY = 'youtubeId';
-export const SERVICE_NAME = 'YouTube';
-export const BRAND_COLOR = '#ff0000';
-
-function isInitialized() {
+export function isInitialized() {
   return true;
 }
 
-export function getViewers(videoId) {
-  return jsonp(`https://www.youtube.com/live_stats?v=${videoId}`, {
-    param: 'callback',
-  }).promise.then(data => data.count);
+export function getViewers(username) {
+  const options = {
+    method: 'GET',
+  };
+
+  return fetch(`https://api2.goodgame.ru/streams/${username}`, options)
+    .then(response => response.json())
+    .then((data) => {
+      if (data.viewers !== undefined) {
+        return parseInt(data.viewers, 10);
+      }
+
+      return null;
+    })
+    .catch(() => null);
 }
 
-function channelExists(videoId) {
-  return getViewers(videoId)
-    .then(data => data.count !== 0)
+function channelExists(username) {
+  const options = {
+    method: 'GET',
+  };
+
+  return fetch(`https://api2.goodgame.ru/streams/${username}`, options)
+    .then(response => response.json())
+    .then(data => data.viewers !== undefined)
     .catch(() => false);
 }
 

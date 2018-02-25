@@ -76,7 +76,8 @@
                        minlength="3"
                        maxlength="25"
                        pattern="[a-zA-Z0-9][a-zA-Z0-9_]{2,24}"
-                       placeholder="Channel name. Example: tijoevideos"
+                       title="Channel username. Example: tijoevideos"
+                       placeholder="Channel username. Example: tijoevideos"
                        data-channel-not-found-message="Twitch account with this username not found.">
               </form>
               <button type="button" class="online-list__auth-button" hidden>
@@ -101,8 +102,33 @@
                        minlength="10"
                        maxlength="12"
                        pattern="[a-zA-Z0-9_-]{10,12}"
+                       title="Video ID. Example: Av8XpCoF3T0"
                        placeholder="Video ID. Example: Av8XpCoF3T0"
                        data-channel-not-found-message="YouTube video with this ID not found.">
+              </form>
+              <button type="button" class="online-list__auth-button" hidden>
+                Authenticate
+              </button>
+              <div class="online-list__loading loading">
+                <span>.</span><span>.</span><span>.</span>
+              </div>
+            </dd>
+          </div>
+
+          <div class="online-list__item" id="goodgame">
+            <dt class="online-list__service-name online-list__service-name--goodgame">
+              GoodGame<button type="button" class="online-list__delete-button" hidden>
+                &times;
+              </button>
+            </dt>
+            <dd class="online-list__row">
+              <span class="online-list__online" hidden>-</span>
+              <form class="online-list__channel-id-form" hidden>
+                <input class="online-list__channel-id-field"
+                       pattern="[a-zA-Z0-9_]+"
+                       title="Channel username. Example: Scatman"
+                       placeholder="Channel username. Example: Scatman"
+                       data-channel-not-found-message="GoodGame channel with this username not found.">
               </form>
               <button type="button" class="online-list__auth-button" hidden>
                 Authenticate
