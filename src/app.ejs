@@ -118,8 +118,10 @@
       <div class="chart container__dynamic-with-child" id="chart"></div>
     </main>
 
-    <script src="https://www.googletagmanager.com/gtag/js" async></script>
-    <script src="https://mc.yandex.ru/metrika/watch.js" crossorigin="anonymous" async></script>
-    <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous" async></script>
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <script src="https://www.googletagmanager.com/gtag/js" async></script>
+      <script src="https://mc.yandex.ru/metrika/watch.js" crossorigin="anonymous" async></script>
+      <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous" async></script>
+    <% } %>
   </body>
 </html>
