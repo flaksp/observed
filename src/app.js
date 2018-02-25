@@ -8,9 +8,12 @@ import * as Charts from './modules/Charts';
 import refreshCounters from './modules/Counters';
 
 function initializeApp() {
-  YandexMetrika();
-  GoogleAnalytics();
-  Sentry();
+  if (process.env.NODE_ENV === 'production') {
+    YandexMetrika();
+    GoogleAnalytics();
+    Sentry();
+  }
+
   Twitch.initialize();
   Youtube.initialize();
   Charts.initialize();

@@ -7,6 +7,7 @@
 
     <meta name="format-detection" content="telephone=no">
     <meta name="robots" content="index,follow">
+
     <meta name="google-site-verification" content="<%= process.env.GOOGLE_SITE_VERIFICATION_TOKEN %>">
     <meta name="yandex-verification" content="<%= process.env.YANDEX_SITE_VERIFICATION_TOKEN %>">
     <link rel="sitemap" href="/sitemap.xml">
@@ -27,7 +28,7 @@
     <!-- Schema.org markup (Google) -->
     <meta itemprop="name" content="Observed">
     <meta itemprop="description" content="A tool to monitor your streams' viewers count from Twitch, YouTube, VK & GoodGame.">
-    <meta itemprop="image" content="/images/social-preview.png">
+    <meta itemprop="image" content="/social-preview.png">
 
     <!-- Twitter Card markup-->
     <meta name="twitter:card" content="summary_large_image">
@@ -36,14 +37,14 @@
     <meta name="twitter:description" content="A tool to monitor your streams' viewers count from Twitch, YouTube, VK & GoodGame.">
     <meta name="twitter:creator" content="@ssimplix">
     <!-- Twitter summary card with large image must be at least 280x150px -->
-    <meta name="twitter:image" content="/images/social-preview.png">
+    <meta name="twitter:image" content="/social-preview.png">
     <meta name="twitter:image:alt" content="A tool to monitor your streams' viewers count from Twitch, YouTube, VK & GoodGame.">
 
     <!-- Open Graph markup (Facebook, Pinterest) -->
     <meta property="og:title" content="Observed">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://observed.lith.pw">
-    <meta property="og:image" content="/images/social-preview.png">
+    <meta property="og:image" content="/social-preview.png">
     <meta property="og:description" content="A tool to monitor your streams' viewers count from Twitch, YouTube, VK & GoodGame.">
     <meta property="og:site_name" content="Observed">
   </head>
@@ -117,8 +118,10 @@
       <div class="chart container__dynamic-with-child" id="chart"></div>
     </main>
 
-    <script src="https://www.googletagmanager.com/gtag/js" async></script>
-    <script src="https://mc.yandex.ru/metrika/watch.js" crossorigin="anonymous" async></script>
-    <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous" async></script>
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <script src="https://www.googletagmanager.com/gtag/js" async></script>
+      <script src="https://mc.yandex.ru/metrika/watch.js" crossorigin="anonymous" async></script>
+      <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous" async></script>
+    <% } %>
   </body>
 </html>
