@@ -4,6 +4,8 @@ const jsonp = require('jsonp-promise');
 
 export const ELEMENT_ID = 'youtube';
 export const STORAGE_KEY = 'youtubeId';
+export const SERVICE_NAME = 'YouTube';
+export const BRAND_COLOR = '#ff0000';
 
 function isInitialized() {
   return true;

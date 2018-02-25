@@ -3,6 +3,8 @@ import refreshCounters from './Counters';
 
 export const ELEMENT_ID = 'twitch';
 export const STORAGE_KEY = 'twitchId';
+export const SERVICE_NAME = 'Twitch';
+export const BRAND_COLOR = '#6441a5';
 
 export function isInitialized() {
   return true;
