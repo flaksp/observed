@@ -6,6 +6,7 @@ cache:
   - node_modules
 script:
 - npm test
+- export NODE_ENV=production
 - npm run build
 - echo "$PUBLIC_DOMAIN" >> dist/CNAME
 deploy:
@@ -16,9 +17,9 @@ deploy:
   local_dir: dist
   on:
     branch: master
+
 env:
   global:
-  - NODE_ENV=production
   - YANDEX_METRIKA_ID=47731033
   - GOOGLE_ANALYTICS_ID=UA-63968909-11
   - SENTRY_DSN=https://fe6966b5ebb74c1b9a4d3fa547564c49@sentry.io/289887
