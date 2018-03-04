@@ -8,9 +8,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'ServiceSelector',
-  };
+export default {
+  name: 'ServiceSelector',
+};
 </script>
 
 <style scoped>
@@ -24,7 +24,8 @@
     color: #fff;
     width: calc(100% - (1rem * 2));
 
-    background-image: url(~material-design-icons/content/svg/production/ic_add_48px.svg);
+    background-image:
+      url('~material-design-icons/content/svg/production/ic_add_48px.svg?fill=white');
     background-repeat: no-repeat;
     background-size: 1rem;
     background-position-x: calc(100% - 1rem);

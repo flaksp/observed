@@ -10,7 +10,6 @@
   "dependencies": {
     "material-design-icons": "^3.0.1",
     "register-service-worker": "^1.0.0",
-    "svg-fill-loader": "^0.0.8",
     "vue": "^2.5.13",
     "webpack": "^4.1.0"
   },
@@ -20,6 +19,7 @@
     "@vue/cli-plugin-pwa": "^3.0.0-beta.3",
     "@vue/cli-service": "^3.0.0-beta.3",
     "@vue/eslint-config-airbnb": "^3.0.0-beta.3",
+    "svg-fill-loader": "^0.0.8",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.13"
