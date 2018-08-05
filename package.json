@@ -44,7 +44,7 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "dotenv-webpack": "1.5.4",
+    "dotenv-webpack": "1.5.7",
     "highcharts": "6.0.7",
     "jsonp-promise": "0.1.2",
     "offline-plugin": "4.9.0",
