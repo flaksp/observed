@@ -1,6 +1,6 @@
-const pgk = require('./package');
 const Dotenv = require('dotenv-webpack');
 const PoiPresetBabelMinify = require('poi-preset-babel-minify');
+const pgk = require('./package');
 
 module.exports = {
   entry: pgk.main,
