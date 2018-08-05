@@ -1,22 +1,11 @@
-language: node_js
+language: 'node_js'
 node_js:
-- "stable"
+- 'stable'
+
 cache:
   directories:
-  - node_modules
-script:
-- npm test
-- export NODE_ENV=production
-- npm run build
-- echo "$PUBLIC_DOMAIN" >> dist/CNAME
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  local_dir: dist
-  on:
-    branch: master
+  - 'node_modules'
+  - 'dist'
 
 env:
   global:
@@ -27,3 +16,31 @@ env:
   - YANDEX_SITE_VERIFICATION_TOKEN=6c2d2d1e3cc9c3d0
   - GOOGLE_SITE_VERIFICATION_TOKEN=N8zcDQCuwg72t6DFlB8xTFYdWVEUR9dEGCtFzKgQTJ0
   - TWITCH_CLIENT_ID=16bettro08b68ichmrb73k0xt2azi2
+
+install:
+- npm install
+
+jobs:
+  include:
+  - stage: 'Code analysis'
+    name: 'Lint code using ESLint'
+    script:
+    - 'npm run lint'
+
+  - stage: 'Preparing application'
+    name: 'Build application'
+    script:
+    - 'export NODE_ENV=production'
+    - 'npm run build'
+    - 'echo "$PUBLIC_DOMAIN" >> dist/CNAME'
+
+  - stage: 'Application deploy'
+    name: 'Upload to GitHub Pages'
+    deploy:
+      provider: 'pages'
+      skip-cleanup: 'true'
+      github-token: $GITHUB_TOKEN
+      keep-history: true
+      local_dir: 'dist'
+      on:
+        branch: 'master'
