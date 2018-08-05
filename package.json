@@ -1,5 +1,5 @@
 {
-  "name": "observed-viewers",
+  "name": "observed",
   "version": "1.0.0",
   "private": true,
   "description": "A tool to monitor your streams' viewers count.",
