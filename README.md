@@ -1,7 +1,7 @@
 # Observed &mdash; a tool to monitor your streams' viewers count
 
 [![Build status](https://api.travis-ci.org/neluzhin/observed.svg)](https://travis-ci.org/neluzhin/observed)
-[![Depfu](https://badges.depfu.com/badges/9f3a86d0935a6920bdecfb7e6bcd7c9a/count.svg)](https://depfu.com/github/neluzhin/observed?project=Npm)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg?maxAge=604800)](https://renovatebot.com/)
 
 Observed is a simple minimalistic JavaScript-only application that monitors your streams in popular streaming platforms and shows viewers count for each one and sum of them.
 
