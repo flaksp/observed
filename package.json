@@ -47,7 +47,7 @@
     "dotenv-webpack": "1.7.0",
     "highcharts": "7.0.3",
     "jsonp-promise": "0.1.2",
-    "offline-plugin": "5.0.6",
+    "offline-plugin": "5.0.7",
     "poi": "^10.2.11",
     "poi-preset-babel-minify": "1.0.3",
     "poi-preset-offline": "9.0.3",
