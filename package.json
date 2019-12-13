@@ -48,7 +48,7 @@
     "highcharts": "7.2.1",
     "jsonp-promise": "0.1.2",
     "offline-plugin": "5.0.7",
-    "poi": "^10.2.11",
+    "poi": "^12.7.4",
     "poi-preset-babel-minify": "1.0.3",
     "poi-preset-offline": "9.0.3",
     "qs": "6.9.1"
