@@ -14,7 +14,7 @@ ARG TWITCH_CLIENT_ID
 
 RUN npm ci --production && npm run build && npm cache clean --force
 
-FROM alpine:3.11.3
+FROM alpine:3.11.5
 
 ARG GIT_SHA
 ENV GIT_SHA $GIT_SHA
