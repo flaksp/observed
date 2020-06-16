@@ -45,7 +45,7 @@
   ],
   "dependencies": {
     "dotenv-webpack": "1.8.0",
-    "highcharts": "8.1.1",
+    "highcharts": "8.1.2",
     "jsonp-promise": "0.1.2",
     "offline-plugin": "5.0.7",
     "poi": "^10.2.11",
